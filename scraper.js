@@ -1,5 +1,8 @@
 import * as fs from 'node:fs/promises';
 import puppeteer from 'puppeteer';
+import * as express from 'express';
+import * as path from 'path';
+
 // import puppeteer from 'puppeteer-core';
 
 const profileUrl ='https://twitter.com/bod_republic'
@@ -104,4 +107,32 @@ console.log("navigated to selected url")
   console.log("closing browser...")
   await browser.close();
   console.log("project done sucessfully...")
+
+const app = express();
+
+// Endpoint to download the JSON file
+app.get('/download', (req, res) => {
+  const filePath = path.join(__dirname, 'tweets.json');
+
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      res.status(404).send('File not found');
+    } else {
+      // Set the appropriate headers for file download
+      res.setHeader('Content-disposition', 'attachment; filename=tweets.json');
+      res.setHeader('Content-type', 'application/json');
+
+      // Stream the file to the response
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    }
+  });
+});
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+
 
