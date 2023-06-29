@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer';
 // import puppeteer from 'puppeteer-core';
 
 const profileUrl ='https://twitter.com/bod_republic'
-const tweetCount = 5000;
+const tweetCount = 5;
 
 console.log("starting...")
   const browser = await puppeteer.launch({
