@@ -16,7 +16,7 @@ console.log("loaded new page....")
       await page.setDefaultNavigationTimeout(0);
 
   // Navigate to the Twitter page
-  await page.goto(profileUrl, { waitUntil: 'networkidle2', timeout: 600000  });
+  await page.goto(profileUrl, { waitUntil: 'networkidle2', timeout: 0  });
 console.log("navigated to selected url")
   
   // Wait for the page to load
