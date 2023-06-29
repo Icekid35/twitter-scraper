@@ -13,7 +13,7 @@ console.log("loaded puppeteer...")
 
   const page = await browser.newPage();
 console.log("loaded new page....")
-  
+      await page.setDefaultNavigationTimeout(0);
 
   // Navigate to the Twitter page
   await page.goto(profileUrl, { waitUntil: 'networkidle2' });
