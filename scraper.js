@@ -18,6 +18,38 @@ console.log("loaded puppeteer...")
 console.log("loaded new page....")
       await page.setDefaultNavigationTimeout(0);
 
+const app = express();
+
+
+// Endpoint to download the JSON file
+app.get('/download', (req, res) => {
+  const filePath = path.join(__dirname, 'tweets.json');
+
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      res.status(404).send('File not found');
+    } else {
+      // Set the appropriate headers for file download
+      res.setHeader('Content-disposition', 'attachment; filename=tweets.json');
+      res.setHeader('Content-type', 'application/json');
+
+      // Stream the file to the response
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    }
+  });
+});
+app.get('*', async (req, res) => {
+let sdata = await scrape()
+res.json(sdata)
+})
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+async function scrape(){
   // Navigate to the Twitter page
   await page.goto(profileUrl, { waitUntil: 'networkidle2', timeout: 0  });
 console.log("navigated to selected url")
@@ -105,34 +137,8 @@ console.log("navigated to selected url")
   console.log("saving tweets")
   await fs.writeFile('tweets.json', JSON.stringify(sortedTweets, null, 2));
   console.log("closing browser...")
-  await browser.close();
+//  await browser.close();
   console.log("project done sucessfully...")
-
-const app = express();
-
-// Endpoint to download the JSON file
-app.get('/download', (req, res) => {
-  const filePath = path.join(__dirname, 'tweets.json');
-
-  // Check if the file exists
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      res.status(404).send('File not found');
-    } else {
-      // Set the appropriate headers for file download
-      res.setHeader('Content-disposition', 'attachment; filename=tweets.json');
-      res.setHeader('Content-type', 'application/json');
-
-      // Stream the file to the response
-      const fileStream = fs.createReadStream(filePath);
-      fileStream.pipe(res);
-    }
-  });
-});
-
-// Start the server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
-
+  return sortedTweets
+}
 
