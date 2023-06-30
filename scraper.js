@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 import puppeteer from 'puppeteer';
-import * as express from 'express';
+import express from 'express';
 import * as path from 'path';
 
 // import puppeteer from 'puppeteer-core';
