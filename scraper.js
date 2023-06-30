@@ -2,7 +2,7 @@ import * as fs from 'node:fs/promises';
 import puppeteer from 'puppeteer';
 import express from 'express';
 import * as path from 'path';
-
+console.log(express)
 // import puppeteer from 'puppeteer-core';
 
 const profileUrl ='https://twitter.com/bod_republic'
