@@ -2,7 +2,6 @@ import * as fs from 'node:fs/promises';
 import puppeteer from 'puppeteer';
 import express from 'express';
 import * as path from 'path';
-console.log(express)
 // import puppeteer from 'puppeteer-core';
 
 const profileUrl ='https://twitter.com/bod_republic'
@@ -14,10 +13,12 @@ console.log("starting...")
   });
 console.log("loaded puppeteer...")
 
+     async function scrape(){
+  
   const page = await browser.newPage();
 console.log("loaded new page....")
-      await page.setDefaultNavigationTimeout(0);
-async function scrape(){
+        await page.setDefaultNavigationTimeout(0);
+
   // Navigate to the Twitter page
   await page.goto(profileUrl, { waitUntil: 'networkidle2', timeout: 0  });
 console.log("navigated to selected url")
